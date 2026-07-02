@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Google Fonts for premium typography */
+:root {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #f8fafc;
+  color: #0f172a;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.dark body {
+  background-color: #0b0f19;
+  color: #f8fafc;
+}
+
+/* Glassmorphism Styling */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04);
+}
+
+.dark .glass-panel {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* React Flow Canvas Custom Styles */
+.react-flow__pane {
+  background-color: #f8fafc;
+  transition: background-color 0.3s;
+}
+
+.dark .react-flow__pane {
+  background-color: #0b0f19;
+}
+
+.react-flow__minimap {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+  background-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.dark .react-flow__minimap {
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background-color: rgba(15, 23, 42, 0.8) !important;
+}
+
+/* Custom handles and lines styles */
+.react-flow__handle {
+  width: 8px !important;
+  height: 8px !important;
+  background-color: #3b82f6 !important;
+  border: 2px solid white !important;
+  border-radius: 50% !important;
+  transition: all 0.2s ease;
+}
+
+.react-flow__handle:hover {
+  transform: scale(1.3);
+  background-color: #2563eb !important;
+}
+
+/* Connection Line */
+.react-flow__connection-path {
+  stroke: #3b82f6 !important;
+  stroke-width: 3px !important;
+  stroke-dasharray: 5;
+  animation: dash 1s linear infinite;
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 10;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Custom Edge Traversal Animations */
+.edge-active-animation {
+  stroke-dasharray: 6;
+  animation: activeEdgeDash 0.8s linear infinite;
+}
+
+@keyframes activeEdgeDash {
+  from {
+    stroke-dashoffset: 12;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.edge-path-animation {
+  stroke-dasharray: 8;
+  animation: shortestPathDash 1.2s linear infinite;
+}
+
+@keyframes shortestPathDash {
+  from {
+    stroke-dashoffset: 16;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Node Animations */
+.node-pulse-visited {
+  animation: visitedPulse 1.2s ease-out forwards;
+}
+
+.node-pulse-frontier {
+  animation: frontierPulse 1.2s ease-out infinite alternate;
+}
+
+.node-pulse-current {
+  animation: currentPulse 0.8s ease-out infinite alternate;
+}
+
+@keyframes visitedPulse {
+  0% {
+    transform: scale(0.8);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+
+@keyframes frontierPulse {
+  0% {
+    box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 0 8px rgba(249, 115, 22, 0.8);
+  }
+}
+
+@keyframes currentPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+  }
+  100% {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 12px rgba(59, 130, 246, 0.8);
+  }
+}
+
+/* Grid overlay background custom pattern */
+.bg-grid-dots {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.dark .bg-grid-dots {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
