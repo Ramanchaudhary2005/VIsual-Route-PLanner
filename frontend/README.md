@@ -76,3 +76,5 @@ Open your browser and navigate to `http://localhost:5173`.
   * `src/components/GraphCanvas.jsx` - Interactive React Flow canvas containing custom nodes and weighted edges.
   * `src/components/Sidebar.jsx` - Panel for algorithms, graph editing forms, playback controllers, presets, and sync utilities.
   * `src/components/StatsPanel.jsx` - Execution telemetry showing exploration order, complexities, and distances.
+
+  ## Use and Learn More 
