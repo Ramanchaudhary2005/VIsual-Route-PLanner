@@ -9,7 +9,7 @@ services:
     environment:
       - PORT=5000
       - MOCK_DB=false
-      - MONGODB_URI=mongodb+srv://palritika79_db_user:GDUK2VCoiEoXWZWJ@cluster0.s11hky4.mongodb.net/visual_route_planner?appName=Cluster0
+      - MONGODB_URI=${MONGODB_URI}
     volumes:
       - backend_data:/app/data
 
