@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18, 20]
+        node-version: [20, 22]
 
     defaults:
       run:
@@ -51,7 +51,7 @@ jobs:
         run: npm run build
 
       - name: Upload build artifact
-        if: matrix.node-version == 20 && github.ref == 'refs/heads/main'
+        if: matrix.node-version == 22 && github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v4
         with:
           name: frontend-dist
@@ -64,7 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18, 20]
+        node-version: [20, 22]
 
     defaults:
       run:
@@ -88,20 +88,26 @@ jobs:
         run: node testAlgorithms.js
 
       - name: Verify server starts
+        env:
+          MOCK_DB: "true"
         run: |
-          # Start the server in the background (no MongoDB — will use fallback)
-          timeout 10 node server.js &
+          # Start the server in the background with mock DB (no MongoDB needed)
+          node server.js &
           SERVER_PID=$!
-          sleep 3
 
-          # Hit the health endpoint
-          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:5000/health)
-          echo "Health check returned HTTP $HTTP_CODE"
+          # Retry health check up to 10 times (1s apart)
+          for i in $(seq 1 10); do
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:5000/health 2>/dev/null || echo "000")
+            if [ "$HTTP_CODE" = "200" ]; then
+              echo "✅ Health check passed (attempt $i)"
+              kill $SERVER_PID 2>/dev/null || true
+              exit 0
+            fi
+            echo "Attempt $i: HTTP $HTTP_CODE — retrying..."
+            sleep 1
+          done
 
-          # Cleanup
+          # Cleanup and fail
           kill $SERVER_PID 2>/dev/null || true
-
-          if [ "$HTTP_CODE" != "200" ]; then
-            echo "::error::Health check failed with HTTP $HTTP_CODE"
-            exit 1
-          fi
+          echo "::error::Health check failed after 10 attempts"
+          exit 1
