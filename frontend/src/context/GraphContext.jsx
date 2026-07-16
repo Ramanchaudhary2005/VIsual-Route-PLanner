@@ -3,7 +3,8 @@ import axios from 'axios';
 
 const GraphContext = createContext(null);
 
-const API_BASE = 'http://localhost:5000/api';
+const API_HOST = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_BASE = `${API_HOST.replace(/\/$/, '')}/api`;
 
 export const useGraph = () => {
   const context = useContext(GraphContext);

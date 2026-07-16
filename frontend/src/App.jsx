@@ -12,9 +12,10 @@ function MainApp() {
   const [engineStatus, setEngineStatus] = useState('connecting'); // 'online' | 'offline' | 'connecting'
 
   useEffect(() => {
+    const apiHost = import.meta.env.VITE_API_URL || 'http://localhost:5000';
     const checkHealth = async () => {
       try {
-        await axios.get('http://localhost:5000/health');
+        await axios.get(`${apiHost.replace(/\/$/, '')}/health`);
         setEngineStatus('online');
       } catch (err) {
         setEngineStatus('offline');

@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  # Node.js backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MOCK_DB=false
+      - MONGODB_URI=mongodb://db:27017/visual_route_planner
+    depends_on:
+      - db
+    volumes:
+      - backend_data:/app/data
+
+  # React frontend served via Nginx
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:5000
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  # MongoDB database
+  db:
+    image: mongo:6.0-jammy
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
+  backend_data:
