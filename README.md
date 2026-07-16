@@ -77,4 +77,4 @@ Open your browser and navigate to `http://localhost:5173`.
   * `src/components/Sidebar.jsx` - Panel for algorithms, graph editing forms, playback controllers, presets, and sync utilities.
   * `src/components/StatsPanel.jsx` - Execution telemetry showing exploration order, complexities, and distances.
 
-  ## Use and Learn More 
+  ## Use and Learn More Enjoy
